@@ -36,7 +36,12 @@ def handle_text_doc(message):
 @bot.message_handler(func=lambda message:True)
 def handle_all_text(message):
     bot.send_message(message.chat.id, "Thank you for your suggestion.")
+#handeling edited message
+@bot.edited_message_handler(func=lambda message:True)
+def send_welcome(message):
+    print("triggered for edited message.")
     
 # start polling        
 bot.infinity_polling()
+
     
