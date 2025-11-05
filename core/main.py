@@ -1,20 +1,15 @@
 import telebot
-<<<<<<< HEAD
 from telebot import apihelper
 import os
 import json
 import logging
 from dotenv import load_dotenv
-
 apihelper.ENABLE_MIDDLEWARE = True
 logger = telebot.logger
 telebot.logger.setLevel(logging.INFO)
-=======
-import os
-import json
-from dotenv import load_dotenv
 
->>>>>>> 7fac5dccfa24080a6e0638a7cb1e3bec972a5235
+
+
 
 load_dotenv()
 
@@ -45,7 +40,6 @@ def handle_docs_audio(message):
 def handle_text_doc(message):
     bot.send_message(message.chat.id, "Hi dear, I hope you the best day!")
     
-<<<<<<< HEAD
 # @bot.message_handler(func=lambda message:True)
 # def handle_all_text(message):
 #     bot.send_message(message.chat.id, "Thank you for your suggestion.")
@@ -72,7 +66,7 @@ def assign_name(message,*args,**kwargs):
 
 # start polling        
 bot.infinity_polling()
-=======
+
 @bot.message_handler(func=lambda message:True)
 def handle_all_text(message):
     bot.send_message(message.chat.id, "Thank you for your suggestion.")
@@ -81,8 +75,12 @@ def handle_all_text(message):
 def send_welcome(message):
     print("triggered for edited message.")
     
+#display this markup
+    bot.send_message(chat_id,'Text')
+    bot.send_message(message.chat.id,"""Hi this is a sample for learning telegram bot in python""",reply_markup=markup)
+    
 # start polling        
 bot.infinity_polling()
 
->>>>>>> 7fac5dccfa24080a6e0638a7cb1e3bec972a5235
+
     
