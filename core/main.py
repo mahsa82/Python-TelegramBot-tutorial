@@ -5,6 +5,7 @@ import json
 import logging
 from dotenv import load_dotenv
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton , InlineKeyboardButton,InlineKeyboardMarkup
+import requests
 
 
 apihelper.ENABLE_MIDDLEWARE = True
@@ -78,7 +79,8 @@ bot = telebot.TeleBot(API_TOKEN)
 # #display this markup
 #     bot.send_message(chat_id,'Text')
 #     bot.send_message(message.chat.id,"""Hi this is a sample for learning telegram bot in python""",reply_markup=markup)
-
+'''
+# a small exercise
 @bot.message_handler(commands=['start'])
 def show_home(message):
     markup = ReplyKeyboardMarkup(
@@ -148,6 +150,41 @@ def reply_call(call):
             text='Oops 😅 You are not so!'
         )
         show_home(call.message)  # return back to home page
+'''
+
+
+# file_download
+if not os.path.exists("downloads"):
+    os.makedirs("downloads")
+
+DOWNLOAD_DIR = "downloads/"
+
+@bot.message_handler(commands=['start'])
+def send_welcome(msg):
+    bot.send_message(msg.chat.id,"Give me a valid url for a file and i will download and upload it for you😉")
+
+def download_file(url):
+    local_filename = url.split('/')[-1]
+    file_path = DOWNLOAD_DIR + local_filename
+    with requests.get(url, stream=True) as r:
+        r.raise_for_status()
+        with open(file_path, 'wb') as f:
+            for chunk in r.iter_content(chunk_size=8192):
+                f.write(chunk)
+    return file_path
+            
+@bot.message_handler(func=lambda message: True)
+def download_file_url(message):
+    logger.info(message.text)
+    url = message.text
+    try:
+        file_path = download_file(url)
+        bot.send_document(chat_id=message.chat.id, reply_to_message_id=message.id, document=open(
+            file_path, "rb"), caption="file downloaded successfully, ENJOY!")
+        os.remove(file_path)
+    except:
+        bot.reply_to(message, text="problem downloading the requested file")
+
 
 # start polling        
 bot.infinity_polling()
