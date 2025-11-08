@@ -86,7 +86,7 @@ def show_home(message):
         input_field_placeholder='Choose your option:'
     )
     markup.add(KeyboardButton('help'), KeyboardButton('about'))
-    markup.add(KeyboardButton('This is just for Elyar'))
+    markup.add(KeyboardButton('This is just for so'))
 
     bot.send_message(message.chat.id, "Hi I'm mahsa🖐Please choose an option:", reply_markup=markup)
 
@@ -106,14 +106,14 @@ def send_about(msg):
     bot.send_message(msg.chat.id, "This bot is for test. Enjoy it 😎")
 
 
-@bot.message_handler(func=lambda message: message.text == "This is just for Elyar")
-def ask_elyar(message):
+@bot.message_handler(func=lambda message: message.text == "This is just for so")
+def ask_so(message):
     markup = InlineKeyboardMarkup()
     markup.add(
-        InlineKeyboardButton("Yes", callback_data="Yes_elyar"),
-        InlineKeyboardButton("No", callback_data="No_elyar")
+        InlineKeyboardButton("Yes", callback_data="Yes_so"),
+        InlineKeyboardButton("No", callback_data="No_so")
     )
-    bot.send_message(message.chat.id, "Are you Elyar Koshollo?", reply_markup=markup)
+    bot.send_message(message.chat.id, "Are you so?", reply_markup=markup)
 
 
 @bot.callback_query_handler(func=lambda call: True)
@@ -121,11 +121,11 @@ def reply_call(call):
     chat_id = call.message.chat.id
     message_id = call.message.id
 
-    if call.data == "Yes_elyar":
+    if call.data == "Yes_so":
         markup = InlineKeyboardMarkup()
         markup.add(
-            InlineKeyboardButton("Yes", callback_data="Confirm_elyar"),
-            InlineKeyboardButton("No", callback_data="No_elyar")
+            InlineKeyboardButton("Yes", callback_data="Confirm_so"),
+            InlineKeyboardButton("No", callback_data="No_so")
         )
         bot.edit_message_text(
             chat_id=chat_id,
@@ -134,18 +134,18 @@ def reply_call(call):
             reply_markup=markup
         )
 
-    elif call.data == "Confirm_elyar":
+    elif call.data == "Confirm_so":
         bot.edit_message_text(
             chat_id=chat_id,
             message_id=message_id,
-            text='Hi Elyar Koshollo 😉🖐 You can pass all your challenges successfully 😎'
+            text='Hi so 😉🖐 You can pass all your challenges successfully 😎'
         )
 
-    elif call.data == "No_elyar":
+    elif call.data == "No_so":
         bot.edit_message_text(
             chat_id=chat_id,
             message_id=message_id,
-            text='Oops 😅 You are not Elyar!'
+            text='Oops 😅 You are not so!'
         )
         show_home(call.message)  # return back to home page
 
